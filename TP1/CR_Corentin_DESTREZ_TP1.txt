@@ -2,6 +2,16 @@ Corentin DESTREZ - LA1 - TDA
 
 =================================================================================================
 
+0 - Introduction
+	Ces infos se trouvent également dans le README.
+	Afin de compiler les sources, un makefile est mis à disposition.
+	La cible all compilera toutes les sources. Il existe une cible pour chaque source.
+	Les exécutables porteront le nom des sources sans l'extension.
+
+	Un cible clean permet de vider le dossier de tous les exécutables.
+
+
+
 1 - Découverte des processus
 
 	1.1 - La commande ps
@@ -155,4 +165,11 @@ Corentin DESTREZ - LA1 - TDA
 
 	3.2 - Exercice de synthese
 
-		Voir fichier exo_synthese.c
+		Voir fichier exo_synthese.c pour la partie 1
+		Voir fichier exo_synthese_V2.c pour la partie 2
+		
+
+
+=================================================================================================
+
+Corentin DESTREZ - LA1 - TDA
