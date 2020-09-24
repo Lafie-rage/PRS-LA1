@@ -1,6 +1,6 @@
 CC = gcc
 
-exe = get_pid_ppid infinite_loop disable_ctr_c callback_on_signal fork_3.1 fork_3.1.3 fork_3.1.5 exo_synthese
+exe = get_pid_ppid infinite_loop disable_ctr_c callback_on_signal fork_3.1 fork_3.1.3 fork_3.1.5 exo_synthese exo_synthese_V2
 
 all : $(exe)
 
@@ -26,6 +26,9 @@ fork_3.1.5 : fork_3.1.5.c
 	$(CC) $^ -o $@
 
 exo_synthese : exo_synthese.c
+	$(CC) $^ -o $@
+
+exo_synthese_V2 : exo_synthese_V2.c
 	$(CC) $^ -o $@
 
 clean : $(exe)
