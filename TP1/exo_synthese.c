@@ -7,6 +7,7 @@
 
 #define PASSWORD "bonjour"
 #define NB_TRY_PASS 5
+#define ALARM_TIME 20
 
 int fork_result;
 
@@ -27,7 +28,7 @@ int main (void) {
     newact_child.sa_handler = signalCallback_child;
     newact_child.sa_flags = 0; // Remise du flag à 0
     sigaction(SIGINT, &newact_child, NULL);
-    printf("Entrez votre mdp. Vous avez %d tentatives\n", NB_TRY_PASS);
+    printf("Entrez votre mdp. Vous avez %d tentatives.\nVous dispossez de %d secondes.\n", NB_TRY_PASS, ALARM_TIME);
     while(cmpNbTry < NB_TRY_PASS) {
       fgets(strInp, 199, stdin);
       if(strInp[0] != '\0') { // If the user input ctrl+c, we ignore it
@@ -52,7 +53,7 @@ int main (void) {
     sigaction(SIGUSR2, &newact_parent, NULL);
     sigaction(SIGALRM, &newact_parent, NULL);
     signal(SIGINT, SIG_IGN); // ignore ctrl+c
-  	alarm(20);
+  	alarm(ALARM_TIME);
     wait(&fork_result);
   }
 }

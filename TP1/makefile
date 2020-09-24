@@ -1,8 +1,8 @@
 CC = gcc
 
-all : get_pid_ppid infinite_loop disable_ctr_c callback_on_signal fork exo_synthese
+exe = get_pid_ppid infinite_loop disable_ctr_c callback_on_signal fork_3.1 fork_3.1.3 fork_3.1.5 exo_synthese
 
-fork : fork_3.1 fork_3.1.3 fork_3.1.5
+all : $(exe)
 
 get_pid_ppid : get_pid_ppid.c
 	$(CC) $^ -o $@
@@ -27,3 +27,6 @@ fork_3.1.5 : fork_3.1.5.c
 
 exo_synthese : exo_synthese.c
 	$(CC) $^ -o $@
+
+clean : $(exe)
+	rm $^
