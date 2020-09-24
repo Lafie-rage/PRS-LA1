@@ -1,0 +1,158 @@
+Corentin DESTREZ - LA1 - TDA
+
+=================================================================================================
+
+1 - Découverte des processus
+
+	1.1 - La commande ps
+
+		=> La commande ps liste les processus en cours ainsi que leur état. Sans argument, seul les
+		processus fils du terminal sot affichés.
+		Les options importantes sont :
+			- -a ou -A qui permettent de lister tous les processus. (-a montre également les
+			processus des autres sessions contrairement à -A).
+			- -u qui permet un affichage plus simple à lire pour l'utilisateur
+			- -x qui affiche les processus n'ayant pas de tty (terminal de contrôle)
+			- -O qui permet de trier la lister des processus
+			- -l qui permet d'afficher un listage long (UID, PPID, C, PRI, NI, ADDR, SZ, WCHAN, TIME
+			- -pid <pid> ou -<pid> qui permet d'afficher l'état d'un processus par son pid
+			- -u <username> permet d'afficher les processus executer par un user
+
+		=> Comme dit précédemment, a va lister tous les programmes, même ceux des autres sessions. u
+		va permettre un affichage plus simple à lire pour l'utilisateur et x permet l'affichage des
+		programmes sans tty (programmes du noyau).
+
+		=> L'option -O permet de trier la liste selon différents critères. On attend alors un
+		argument "format de tri". Le format est O[+|-]cléDeTri (+ tri croissant, - décroissant)
+		Les formats importants sont :
+			- p : tri par PID
+			- P : tri par PPID
+			- t : tri par tty
+			- y : tri par priorité d'ordonnancement
+			- U : tri par UID
+			- T : tri par date de début du processus
+
+
+	1.2 - Hiérarchie des processus
+
+		=> Affiche un arbre des processus ou chaque processus est relié à son père. Dans le cas d'un
+		processus sans père, il est relié à systemd (le pid 1).
+
+		=> Voir fichier get_pid_ppid.c
+
+2 - Les signaux
+
+	2.1 - Commande et fonction kill
+
+		2.1.1
+			coranthin@PC-Coran:~$ kill -l
+			1) SIGHUP	 2) SIGINT	 3) SIGQUIT	 4) SIGILL	 5) SIGTRAP
+			6) SIGABRT	 7) SIGBUS	 8) SIGFPE	 9) SIGKILL	10) SIGUSR1
+			11) SIGSEGV	12) SIGUSR2	13) SIGPIPE	14) SIGALRM	15) SIGTERM
+			16) SIGSTKFLT	17) SIGCHLD	18) SIGCONT	19) SIGSTOP	20) SIGTSTP
+			21) SIGTTIN	22) SIGTTOU	23) SIGURG	24) SIGXCPU	25) SIGXFSZ
+			26) SIGVTALRM	27) SIGPROF	28) SIGWINCH	29) SIGIO	30) SIGPWR
+			31) SIGSYS	34) SIGRTMIN	35) SIGRTMIN+1	36) SIGRTMIN+2	37) SIGRTMIN+3
+			38) SIGRTMIN+4	39) SIGRTMIN+5	40) SIGRTMIN+6	41) SIGRTMIN+7	42) SIGRTMIN+8
+			43) SIGRTMIN+9	44) SIGRTMIN+10	45) SIGRTMIN+11	46) SIGRTMIN+12	47) SIGRTMIN+13
+			48) SIGRTMIN+14	49) SIGRTMIN+15	50) SIGRTMAX-14	51) SIGRTMAX-13	52) SIGRTMAX-12
+			53) SIGRTMAX-11	54) SIGRTMAX-10	55) SIGRTMAX-9	56) SIGRTMAX-8	57) SIGRTMAX-7
+			58) SIGRTMAX-6	59) SIGRTMAX-5	60) SIGRTMAX-4	61) SIGRTMAX-3	62) SIGRTMAX-2
+
+		2.1.2 Pour le programme : voir infinite_loop.c
+
+			SIGINT coupe le processus.
+			SIGCHLD ne coupe pas le programme. D'après man 7 signal, il eteint ou met en pause le processus
+			fils.
+			SIGUSR1 coupe le processus et affiche le message "Signal #1 défini par l'usager"
+
+		2.1.3 Pour obtenir de l'aide sur la fonction c kill(), il faut taper man 2 kill
+			Voici un court extrait du man
+				NAME
+				       kill - send signal to a process
+
+				SYNOPSIS
+				       #include <sys/types.h>
+				       #include <signal.h>
+
+				       int kill(pid_t pid, int sig);
+
+				   Feature Test Macro Requirements for glibc (see feature_test_macros(7)):
+
+				       kill(): _POSIX_C_SOURCE
+
+				DESCRIPTION
+				       The  kill()  system  call can be used to send any signal to any process
+				       group or process.
+
+		 2.1.4 Pour alarm : man alarm
+				NAME
+				       alarm - set an alarm clock for delivery of a signal
+
+				SYNOPSIS
+				       #include <unistd.h>
+
+				       unsigned int alarm(unsigned int seconds);
+
+				DESCRIPTION
+				       alarm()  arranges  for  a SIGALRM signal to be delivered to the calling
+				       process in seconds seconds.
+
+				       If seconds is zero, any pending alarm is canceled.
+
+				       In any event any previously set alarm() is canceled.
+
+			 Pour pause : man pause
+			 		NAME
+					       pause - wait for signal
+
+					SYNOPSIS
+					       #include <unistd.h>
+
+					       int pause(void);
+
+					DESCRIPTION
+					       pause()  causes the calling process (or thread) to sleep until a signal
+					       is delivered that either terminates the process or causes  the  invoca‐
+					       tion of a signal-catching function.
+
+
+			Pause permet une attente de synchronisation avec un signal.
+			C'est un appel bloquant puisque tant qu'on ne reçoit pas le signal, on ne continue pas l'execution
+
+		2.1.5 Ici, le processus est en attente d'un signal, après que ce signal soit reçu, si ce n'était pas un signal de fin d'execution, il attendra 20 secondes avant d'envoyer un message et s'arrêter.
+
+	2.2 - Ignorer un signal
+
+		2.2.1 Dans la 7eme page du man de signal.
+
+		2.2.2 On doit inclure la librairie signal.h.
+
+		2.2.3 Voir le fichier disable_ctr_c.c.
+
+	2.3 Traiter un signal
+
+		Voir le fichier callback_on_signal.c.
+
+
+3 - Création d'un processus
+
+	3.1 - Appel systeme fork()
+
+		3.1.1 On voit que le processus crée un 1er fils. Ensuite, ce processus et son fils créent à leur tour un fils chacun.
+
+		3.1.2 Ils arrête l'exection en cas d'erreur lors de la création d'un fils.
+
+		3.1.3 Voir le fichier fork_3.1.3.c.
+
+			On peut lister les processus zombies a l'aide de la commande pas aux | grep 'Z'
+
+		3.1.4 Le zombie est arrete aussi lorsque qu'on tue le pere.
+
+		3.1.5 Voir le fichier fork_3.1.5.c
+			Le fils est alors en defunct en attention la fin du pere.
+			Il meurt alors en même temps que le pere.
+
+	3.2 - Exercice de synthese
+
+		Voir fichier exo_synthese.c
