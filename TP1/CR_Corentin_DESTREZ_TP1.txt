@@ -10,7 +10,7 @@ Corentin DESTREZ - LA1 - TDA
 
 	Un cible clean permet de vider le dossier de tous les exécutables.
 
-
+=================================================================================================
 
 1 - Découverte des processus
 
@@ -50,6 +50,7 @@ Corentin DESTREZ - LA1 - TDA
 
 		=> Voir fichier get_pid_ppid.c
 
+
 2 - Les signaux
 
 	2.1 - Commande et fonction kill
@@ -72,7 +73,8 @@ Corentin DESTREZ - LA1 - TDA
 		2.1.2 Pour le programme : voir infinite_loop.c
 
 			SIGINT coupe le processus.
-			SIGCHLD ne coupe pas le programme. D'après man 7 signal, il eteint ou met en pause le processus
+			SIGCHLD ne coupe pas le programme. D'après man 7 signal, il eteint ou met en pause le
+			processus
 			fils.
 			SIGUSR1 coupe le processus et affiche le message "Signal #1 défini par l'usager"
 
@@ -128,9 +130,12 @@ Corentin DESTREZ - LA1 - TDA
 
 
 			Pause permet une attente de synchronisation avec un signal.
-			C'est un appel bloquant puisque tant qu'on ne reçoit pas le signal, on ne continue pas l'execution
+			C'est un appel bloquant puisque tant qu'on ne reçoit pas le signal, on ne continue
+			pas l'exécution
 
-		2.1.5 Ici, le processus est en attente d'un signal, après que ce signal soit reçu, si ce n'était pas un signal de fin d'execution, il attendra 20 secondes avant d'envoyer un message et s'arrêter.
+		2.1.5 Ici, le processus est en attente d'un signal, après que ce signal soit reçu, si
+			ce n'était pas un signal de fin d'exécution, il attendra 20 secondes avant d'envoyer
+			un message et s'arrêter.
 
 	2.2 - Ignorer un signal
 
@@ -147,28 +152,75 @@ Corentin DESTREZ - LA1 - TDA
 
 3 - Création d'un processus
 
-	3.1 - Appel systeme fork()
+	3.1 - Appel système fork()
 
-		3.1.1 On voit que le processus crée un 1er fils. Ensuite, ce processus et son fils créent à leur tour un fils chacun.
+		3.1.1 On voit que le processus crée un 1er fils. Ensuite, ce processus et son fils
+			créent à leur tour un fils chacun.
 
-		3.1.2 Ils arrête l'exection en cas d'erreur lors de la création d'un fils.
+		3.1.2 Ils arrête l'exécution en cas d'erreur lors de la création d'un fils.
 
 		3.1.3 Voir le fichier fork_3.1.3.c.
 
 			On peut lister les processus zombies a l'aide de la commande pas aux | grep 'Z'
 
-		3.1.4 Le zombie est arrete aussi lorsque qu'on tue le pere.
+		3.1.4 Le zombie est arrête aussi lorsque qu'on tue le père.
 
 		3.1.5 Voir le fichier fork_3.1.5.c
-			Le fils est alors en defunct en attention la fin du pere.
-			Il meurt alors en même temps que le pere.
+			Le fils est alors en defunct en attention la fin du père.
+			Il meurt alors en même temps que le père.
 
-	3.2 - Exercice de synthese
+	3.2 - Exercice de synthèse
 
 		Voir fichier exo_synthese.c pour la partie 1
 		Voir fichier exo_synthese_V2.c pour la partie 2
-		
 
+
+4 - Priorité des processus
+
+	4.1 - Priorité "nice" et les commandes nice et renice
+
+		4.1.1 La priorité nice définit la priorité d'exécution du processus pour l'ordonnanceur.
+			Plus la valeur est basse, plus la priorité d'exécution est élevée.
+
+		4.1.2 On peut voir la liste des processus du terminal courant ainsi que leur priorité
+			nice à l'aide de la commande ps -l.
+
+		4.1.3 La valeur de la priorité est comprise entre -20 (valeur la plus favorable) et 19.
+
+		4.1.4 Pour affecter une valeur haute on peut utiliser la commande nice -n -10 <nom_du_processus_a_lancer>
+			Pour affecter une valeur haute on peut utiliser la commande nice <nom_du_processus_a_lancer>
+			nice affecte comme valeur par défaut 10.
+
+		4.1.5 La commande renice permet de changer la priorité d'un programme en cours d'exécution à l'aide de pid.
+
+	4.2 - Commande top
+
+	 	La commande top permet d'afficher la liste de tous les processus ainsi qu'un certains nombres d'informations
+		dont leur pid et leur priorité nice.
+		On remarque que la majorité des programmes ont une priorité nice 0.
+		Cependant on remarque, en triant les processus par leur priorité nice, que les processus exécutés par root
+		ont une priorité -20.
+
+
+5 - Politique d'ordonnancement
+
+		5.1 Les politiques d'ordonnancement sont :
+			- Une politique de file "SCHED_FIFO" (FIFO), c'est à dire que l'ordonnanceur priorise la répartition des temps d'exécution
+				pour les programmes les les premiers mis en attente. Le processus sera relâché que lorsqu'il a fini son exécution,
+				été stoppé ou été endormi. On exécute alors en priorités les programmes dans la file ayant la plus grande priorité.
+			- Une politique "SCHED_RR" qui est similaire à la file, hormis qu'ici on n'allouera un temps d'exécution limité. A la fin de
+				ce temps, le processus est remis dans la file et un autre processus dans la file ayant la même priorité est alors exécuté.
+				De même pour que pour la file, on priorise les programmes dans la fille ayant la plus grande priorité.
+			- Une prolitique "SCHED_OTHER" (la politique par défaut du noyau Linux) qui attribue un temps d'exécution limité. Ce temps est
+				déterminé par sa priorité statique (la priorité nice) et une autre priorité dite dynamique qui est déterminé par plusieurs
+				autres paramètres (date de lancement, temps d'exécution, nombre de ressources demandées,...).
+
+			SCHED_FIFO et SCHED_RR sont des politiques temps réel alors que SCHED_OTHER est une politiques temps partagé.
+
+		5.2 Les 3 noms sont donc SCHED_FIFO, SCHED_RR et SCHED_OTHER.
+			La valeur associée à chacun est respectivement 1, 2, 0.
+
+		5.3 N'ayant pas le code source pour cette question, je n'ai pas pu la réalisée.
 
 =================================================================================================
 
