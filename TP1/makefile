@@ -1,6 +1,8 @@
 CC = gcc
 
-exe = get_pid_ppid infinite_loop disable_ctr_c callback_on_signal fork_3.1 fork_3.1.3 fork_3.1.5 exo_synthese exo_synthese_V2
+W = -Wall
+
+exe = get_pid_ppid infinite_loop disable_ctr_c callback_on_signal fork_3.1 fork_3.1.3 fork_3.1.5 exo_synthese exo_synthese_V2 schedule
 
 all : $(exe)
 
@@ -30,6 +32,9 @@ exo_synthese : exo_synthese.c
 
 exo_synthese_V2 : exo_synthese_V2.c
 	$(CC) $^ -o $@
+
+schedule : schedule.c
+	$(CC) $^ $W -o $@
 
 clean : $(exe)
 	rm $^
