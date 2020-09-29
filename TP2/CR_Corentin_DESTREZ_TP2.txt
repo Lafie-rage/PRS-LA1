@@ -1,0 +1,68 @@
+Corentin DESTREZ - LA1 - TDA
+
+TP2
+
+=================================================================================================
+
+0 - Introduction
+	Ces infos se trouvent également dans le README.
+	Afin de compiler les sources, un makefile est mis à disposition.
+	La cible all compilera toutes les sources. Il existe une cible pour chaque source.
+	Les exécutables porteront le nom des sources sans l'extension.
+
+	Un cible clean permet de vider le dossier de tous les exécutables.
+
+=================================================================================================
+
+1 - Processus/threads
+
+  1 On voit ceci à l'aide de la commande time :
+    real	0m5,612s
+    user	0m3,358s
+    sys	0m1,805s
+
+    Il a donc duré légèrement plus que 5 secondes
+
+  2 Un thread est une "instance" d'un processus. Il permet l'exécution de taches de manières asynchrone afin
+    que les traitements longs ou continues ne bloquent pas l'ensemble du processus. (Lecture/écriture en base,
+    attente d'action sur une interface graphique, attente d'un appel client, ...)
+
+    L'appel système pthred_create() crée un nouveau thread, elle lance l'exécution de celui-ci.
+    L'appel système pthread_exit() demande l'arrêt de l'exécution d'un thread.
+    L'appel système pthread_join() attends la fin de l'exécution d'un thread. De la même manière qu'un wait attend
+    la fin de l'exécution d'un processus. Elle permet également la récupération du statu de fin d'exécution du
+    thread.
+
+    On doit linker la librairie pthread lors de la compilation.
+
+  3 Voir le fichier test_thread.c
+
+  4 On voit que le temps d'exécution est grandement réduit :
+    $ time ./test_thread
+      Debut du programme test_fork 1601297109
+      Fin du programme test_fork 1601297110
+      Durée du programme 1
+
+      real	0m1,031s
+      user	0m0,237s
+      sys	0m1,254s
+
+
+2 - Parallélisme
+
+  1 On peut passer des arguments à un thread sous la forme souhaitée grace au paramètre arg qui est de type void *
+  (donc qui n'est pas typé).
+
+  2 Voir fichier test_thread2_2.c.
+
+  3 On voit que l'ordonnanceur n'accorde pas le même temps processus à chaque thread.
+
+  4 Les différents threads ne sont pas forcément dans l'ordre/
+
+
+3 Concurrence
+
+  1 Voir fichier test_thread3_1.c.
+		On remarque que les deux messages se mélangent.
+
+	2 voir fichier test_thread3_2.c.
