@@ -66,3 +66,34 @@ TP2
 		On remarque que les deux messages se mélangent.
 
 	2 voir fichier test_thread3_2.c.
+
+
+4 Mise en place d'un mécanisme de protection
+
+	1 Ce mécanisme s'appelle une attente active.
+		Il faut l'éviter car les threads tournent encore et donc ils consomment encore de la ressource en attendant.
+
+	2 Les A et B sont mélangés.
+
+	3 Voir fichier test_caractere.c (variable flag rajoutée).
+
+	4 Il est possible que le 1er thread s'arrête à la fin du while, avant de passer le flag à 1 et que le 2nd thread
+		passera également le while. Alors les deux programmes s'exécutent comme si aucun flag n'était mis en place.
+		La méthode du flag est donc efficace sur les environnement où on peut gérer nous même l'ordonnancement, ce qui
+		n'est pas le cas sous UNIX.
+
+
+5 Les mutex
+
+	1 Voir fichier test_mutex1.c
+
+	2 Il faut afficher un message avant le traitement puis un après le traitement permettant de flag les début et fin
+		de traitement. Si le thread x affiche à la suite les messages de début et de fin de traitement, alors il s'est
+		exécuté sans être arrêté.
+
+	3 On remarque que les messages de début peuvent se suivre, les traitements sont donc interrompu et mélangés.
+
+
+6 Blocage d'un thread sur condition
+
+	1 Voir fichier test_mutex2.c
