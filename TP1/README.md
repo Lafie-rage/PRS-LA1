@@ -21,4 +21,4 @@ Un cible clean permet de vider le dossier de tous les exécutables.
 ## Contributeur
 
 Ce TP a été réalisé seul par Corentin DESTREZ.  
-Github : [Lafie-rage](https://github.com/Lafie-rage/PRS-LA1/tree/master/TP1)
+[Github](https://github.com/Lafie-rage/PRS-LA1/tree/master/TP1) : [Lafie-rage](https://github.com/Lafie-rage)
