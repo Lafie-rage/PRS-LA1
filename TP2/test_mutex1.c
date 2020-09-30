@@ -10,7 +10,7 @@
 
 #define NB_THREADS 10
 
-pthread_mutex_t mutex1;
+pthread_mutex_t mutex1 = PTHREAD_MUTEX_INITIALIZER;
 
 void *thread_treatement (void * arg);
 
