@@ -49,6 +49,8 @@ void *printA(void *arg) {
   }
   puts("");
   flag = 0;
+
+  pthread_exit(EXIT_SUCCESS);
 }
 
 
@@ -67,4 +69,6 @@ void *printB(void *arg) {
   }
   puts("");
   flag = 0;
+
+  pthread_exit(EXIT_SUCCESS);
 }
