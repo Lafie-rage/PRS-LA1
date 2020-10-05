@@ -1,6 +1,6 @@
 Corentin DESTREZ - LA1 - TDA
 
-TP2
+TP2 - THREAD ET MUTEX
 
 =================================================================================================
 
@@ -100,3 +100,21 @@ TP2
 		On remarque que les chiffres tirés sont toujours les mêmes, certainement dû à la l'implémentation de la fonction rand().
 
 	2 Voir fichier test_mutex3.c
+		J'ai pu remarquer que lancer le thread d'attente après avoir lancé les threads de calcul pouvait parfois amener à un blocage
+		car le thread d'attente était en attente des autres threads qui étaient tous déjà finis. J'ai donc du lancer le thread
+		d'attente avant les threads de calcul afin d'éviter ce problème.
+
+CONCLUSION :
+
+	Ce TP m'a permis d'aborder une nouvelle façon d'utiliser le multi threading. J'ai déjà pu, auparavant utilisé le multithreading
+	en Java à l'IUT.
+	J'ai aussi pu découvrir les mutex, que je ne connaissais pas et que je n'ai pas abordé en multithreading en Java mais que j'ai
+	pu voir en programmation système à l'IUT. J'ai aussi pu voir les sémaphores et les boites aux lettres.
+	Cependant, ces deux notions nous avaient été présentées rapidement, sans nous en expliqué le fonctionnement réel.
+	
+
+=================================================================================================
+
+Corentin DESTREZ - LA1 - TDA
+
+TP2 - THREAD ET MUTEX
