@@ -10,11 +10,7 @@
 
 #define PARAM 5
 
-void *thread_treatement(void *arg) {
-
-  printf("La valeur passee dans le thread est %d\n", *(int *)arg);
-  pthread_exit(EXIT_SUCCESS);
-}
+void *thread_treatement(void *arg);
 
 int main(void) {
   pthread_t th;
@@ -25,4 +21,14 @@ int main(void) {
   pthread_join(th, &retVal);
 
   return EXIT_SUCCESS;
+}
+
+
+/* =============================================================================== */
+/*                                FUNCTIONS' CORPSES                               */
+/* =============================================================================== */
+
+void *thread_treatement(void *arg) {
+  printf("La valeur passee dans le thread est %d\n", *(int *)arg);
+  pthread_exit(EXIT_SUCCESS);
 }

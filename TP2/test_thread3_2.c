@@ -12,6 +12,29 @@
 
 #define MESSAGE "Salut a tous"
 
+void *thread1_treatement(void *arg);
+void *thread2_treatement(void *arg);
+
+int main(void) {
+  pthread_t th1,
+            th2;
+  void *retVal_th1,
+       *retVal_th2;
+
+  pthread_create(&th1, NULL, thread1_treatement, MESSAGE);
+  pthread_create(&th2, NULL, thread2_treatement, MESSAGE);
+
+  pthread_join(th1, &retVal_th1);
+  pthread_join(th2, &retVal_th2);
+
+  return EXIT_SUCCESS;
+}
+
+
+/* =============================================================================== */
+/*                                FUNCTIONS' CORPSES                               */
+/* =============================================================================== */
+
 void *thread1_treatement(void *arg) {
   char* chaine = (char *)arg;
   int i = 0,
@@ -42,19 +65,4 @@ void *thread2_treatement(void *arg) {
   }
 
   pthread_exit(EXIT_SUCCESS);
-}
-
-int main(void) {
-  pthread_t th1,
-            th2;
-  void *retVal_th1,
-       *retVal_th2;
-
-  pthread_create(&th1, NULL, thread1_treatement, MESSAGE);
-  pthread_create(&th2, NULL, thread2_treatement, MESSAGE);
-
-  pthread_join(th1, &retVal_th1);
-  pthread_join(th2, &retVal_th2);
-
-  return EXIT_SUCCESS;
 }

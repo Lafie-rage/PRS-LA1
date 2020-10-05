@@ -11,20 +11,7 @@
 #include <time.h>
 
 
-void *thread_treatement(void *arg) {
-  int i = 0;
-  int numThread = *(int *)arg;
-  struct timespec tim, timrem;
-  tim.tv_sec = 0;
-  tim.tv_nsec = 100 * 1000000;
-
-  while (1) {
-    nanosleep(&tim, &timrem);
-    printf("Numero de thread %d.\nValeur actuelle : %d.\n", numThread, i++);
-  }
-
-  pthread_exit(EXIT_SUCCESS);
-}
+void *thread_treatement(void *arg);
 
 int main(int argc, char *argv[]) {
   void *retVal;
@@ -53,4 +40,24 @@ int main(int argc, char *argv[]) {
 
 
   return EXIT_SUCCESS;
+}
+
+
+/* =============================================================================== */
+/*                                FUNCTIONS' CORPSES                               */
+/* =============================================================================== */
+
+void *thread_treatement(void *arg) {
+  int i = 0;
+  int numThread = *(int *)arg;
+  struct timespec tim, timrem;
+  tim.tv_sec = 0;
+  tim.tv_nsec = 100 * 1000000;
+
+  while (1) {
+    nanosleep(&tim, &timrem);
+    printf("Numero de thread %d.\nValeur actuelle : %d.\n", numThread, i++);
+  }
+
+  pthread_exit(EXIT_SUCCESS);
 }

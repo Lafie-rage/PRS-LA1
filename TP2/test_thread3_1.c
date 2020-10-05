@@ -12,27 +12,9 @@
 
 #define MESSAGE "Salut a tous"
 
-void *thread1_treatement(void *arg) {
-  char* chaine = (char *)arg;
-  int i = 0;
+void *thread1_treatement(void *arg);
 
-  for (; i < strlen(chaine); i++) {
-    printf("%c\n", toupper(chaine[i]));
-  }
-
-  pthread_exit(EXIT_SUCCESS);
-}
-
-void *thread2_treatement(void *arg) {
-  char* chaine = (char *)arg;
-  int i = 0;
-
-  for (; i < strlen(chaine); i++) {
-    printf("%c\n", tolower(chaine[i]));
-  }
-
-  pthread_exit(EXIT_SUCCESS);
-}
+void *thread2_treatement(void *arg);
 
 int main(void) {
   pthread_t th1,
@@ -47,4 +29,31 @@ int main(void) {
   pthread_join(th2, &retVal_th2);
 
   return EXIT_SUCCESS;
+}
+
+void *thread1_treatement(void *arg) {
+  char* chaine = (char *)arg;
+  int i = 0;
+
+  for (; i < strlen(chaine); i++) {
+    printf("%c\n", toupper(chaine[i]));
+  }
+
+  pthread_exit(EXIT_SUCCESS);
+}
+
+
+/* =============================================================================== */
+/*                                FUNCTIONS' CORPSES                               */
+/* =============================================================================== */
+
+void *thread2_treatement(void *arg) {
+  char* chaine = (char *)arg;
+  int i = 0;
+
+  for (; i < strlen(chaine); i++) {
+    printf("%c\n", tolower(chaine[i]));
+  }
+
+  pthread_exit(EXIT_SUCCESS);
 }

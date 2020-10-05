@@ -11,11 +11,7 @@
 
 #define NB_FORKS 50000
 
-void *do_nothing(void *arg) {
-  int i;
-  i=0;
-  pthread_exit(EXIT_SUCCESS);
-}
+void *do_nothing(void *arg);
 
 int main(void) {
   time_t t1,t2;
@@ -36,4 +32,15 @@ int main(void) {
   printf("Durée du programme %ld \n",(t2-t1));
 
   return EXIT_SUCCESS;
+}
+
+
+/* =============================================================================== */
+/*                                FUNCTIONS' CORPSES                               */
+/* =============================================================================== */
+
+void *do_nothing(void *arg) {
+  int i;
+  i=0;
+  pthread_exit(EXIT_SUCCESS);
 }
