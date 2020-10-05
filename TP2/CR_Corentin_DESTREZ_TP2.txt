@@ -97,3 +97,6 @@ TP2
 6 Blocage d'un thread sur condition
 
 	1 Voir fichier test_mutex2.c
+		On remarque que les chiffres tirés sont toujours les mêmes, certainement dû à la l'implémentation de la fonction rand().
+
+	2 Voir fichier test_mutex3.c
