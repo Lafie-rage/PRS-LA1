@@ -110,8 +110,8 @@ CONCLUSION :
 	en Java à l'IUT.
 	J'ai aussi pu découvrir les mutex, que je ne connaissais pas et que je n'ai pas abordé en multithreading en Java mais que j'ai
 	pu voir en programmation système à l'IUT. J'ai aussi pu voir les sémaphores et les boites aux lettres.
-	Cependant, ces deux notions nous avaient été présentées rapidement, sans nous en expliqué le fonctionnement réel.
-	
+	Cependant, ces deux notions nous avaient été présentées rapidement, sans nous en expliquer le fonctionnement réel.
+
 
 =================================================================================================
 
