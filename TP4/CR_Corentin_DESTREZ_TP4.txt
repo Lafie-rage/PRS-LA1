@@ -1,0 +1,81 @@
+Corentin DESTREZ - LA1 - TDA
+
+TP4 - MEMOIRE PARTAGEE
+
+=================================================================================================
+
+0 - Introduction
+	Ces infos se trouvent également dans le README.
+	Afin de compiler les sources, un makefile est mis à disposition.
+	La cible all compilera toutes les sources. Il existe une cible pour chaque source.
+	Les exécutables porteront le nom des sources sans l'extension et se trouvent dans le dossier build.
+
+	Un cible clean permet de vider le dossier build.
+
+=================================================================================================
+
+Question 1 :
+	Pour le code voir : shm_e1.c.
+	Pour les tests, j'ai simplement repris les étapes pas à pas de création de la mémoire partagée.
+	Lors de l'exécution, des messages affichent chaque étapes et vérifie la valeur de la mémoire partagée lors de son écriture et du vidage de celle-ci.
+	Pour l'affichage des infos de la mémoire partagée, je me suis référé à la structure de shmid_ds proposé dans le man de shmctl, il reste surement des valeurs vu qu'il y avait "..." à la fin.
+
+Question 2 :
+	Pour le code voir : shm_e2.c.
+	Lors de l'exécution, des messages affichent chaque étapes et vérifie la valeur de la mémoire partagée lors de son écriture et du vidage de celle-ci.
+	L'écriture se fait dans le fils, à la fin du fils, le père lit puis vide la mémoire (c'est pour ça qu'on l'ouvre en lecture/écriture).
+	On supprime le segment dans le père, le fils ne fait que s'unlink.
+
+Question 3 :
+	Pour le code voir : shm_e3.c.
+	Lors de l'exécution, des messages affichent chaque étapes et vérifie la valeur de la mémoire partagée lors de son écriture et du vidage de celle-ci.
+	L'écriture se fait dans les fils caractère par caractère avec un délais aléatoire entre 1 et 100 ms, à la fin des fils, le père lit puis vide la mémoire (c'est pour ça qu'on l'ouvre en lecture/écriture).
+
+	Si on exécute plusieurs fois, on ne trouve pas le même résultat. Parfois plus de A que de B.
+	On en déduit que le dernier à avoir écrit a le dernier mot.
+	Pour entre 1 & 100 ms :
+		-> 1ère exec : AAAAAAAAAAAAAABABBAB
+		-> 2ème exec : BBBBBAABBBBBBBBBBBBB
+
+	Pour un temps fixe de 100 ms:
+		-> 1ère exec : BBBBBBBBBBBBBBBBBBBB
+		-> 2ème exec : BBBBBBBAAAAAAAAAAAAA
+
+	La priorité dépend de la priorité donné au processus par le scheduler.
+
+Question 4 :
+	Pour le code voir : shm_e4.c
+	J'ai choisi de mettre un accès au sémaphore avant les boucles d'écriture et sa libération après. Ceci permet d'être sûr qu'ils écrivent un à un.
+
+Question 5 :
+	Si on n'attend pas la fin d'un des processus qui écrit (sans sécuriser les accès à la mémoire partagée)
+	le père lira avant la fin de l'écriture des fils et donc la donnée ne sera pas complète.
+	On peut utiliser le sémaphore mis en place à la question 4 lors de la lecture de l'information également.
+	Pour le test, il faudra cependant mettre 1 sec de pause pour être sûr que les fils écrivent ou soient bloqué par le sémaphore.
+
+	Pour le code voir : shm_e5.c.
+	J'ai tout de même laissé un wait à la fin du père pour éviter la fin du père avant les fils.
+	On remarque que les messages ne s'affichent pas correctement puis que j'ai eu :
+	"PERE : ---> On a supprimé le segment de la mémoire partagée
+	---> On a unlinké la mémoire partagée
+	FILS 1 : ---> On a écrit dans la mémoire partagée
+	FILS 2 : ---> On a écrit dans la mémoire partagée
+	FILS 1 : ---> On a unlinké la mémoire partagée
+	FILS 1 : ---> FIN
+	FILS 2 : ---> On a unlinké la mémoire partagée
+	FILS 2 : ---> FIN"
+
+Question 6 :
+	ipcs affiche des informations sur les moyens de communication interprocessus actif.
+	J'ai pu m'en servir pour voir les mémoire partagées qui n'étaient pas supprimé lors de crash de mes programmes avant leur suppression...
+
+Question 7 :
+	ipcrm permet de supprimer des ressources IPC en fonction de l'option envoyée
+	A l'aide de ipcrm shm <idDuShm> on peut supprimer une mémoire partagé, comme j'ai du le faire pour éviter de garder des mémoires partagées "perdues".
+
+Question 8
+	Pour le code voir shm_srv.c & shm_cli.c
+	Pour ce programme, j'utilise également les sémaphores.
+	J'ai choisis de faire le vidage, la suppression du segment dans le client puisqu'il sera le deuxième a s'executer.
+	Cependant, on aurait pu le faire après les 30 min de pause du serveur, ça n'aurait rien changé.
+	Il aurait également fallut faire un appel au sémaphore pour éviter de supprimer le segment s'il devait être lu ou écrit par un autre processus.
