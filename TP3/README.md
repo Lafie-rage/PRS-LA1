@@ -1,6 +1,6 @@
 # TP 3 : SEMAPHORES | PRS | LA1
 
-Compte rendu et sources du TP2 de PRS des LA1. Réalisé en réalisé 2020.
+Compte rendu et sources du TP3 de PRS des LA1. Réalisé en réalisé 2020.
 
 ## Description
 
@@ -21,4 +21,4 @@ Un cible clean permet de vider le dossier de tous les exécutables.
 ## Contributeur
 
 Ce TP a été réalisé seul par Corentin DESTREZ.  
-[Github](https://github.com/Lafie-rage/PRS-LA1/tree/master/TP1) : [Lafie-rage](https://github.com/Lafie-rage)
+[Github](https://github.com/Lafie-rage/PRS-LA1/tree/master/TP3) : [Lafie-rage](https://github.com/Lafie-rage)
