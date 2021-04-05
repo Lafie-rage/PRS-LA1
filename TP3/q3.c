@@ -32,9 +32,7 @@ int main(int argc, char *argv[]) {
   }
   sem_t* mySem = sem_open(SEM_NAME, O_CREAT, O_RDWR, nbAccesResCrit);
   int i, pidFils;
-  pthread_t th[NB_PROC];
-  void *ret;
-  for(i = 0; i < NB_PROC; i++) { // Create threads
+  for(i = 0; i < NB_PROC; i++) {
       pidFils = fork();
       switch (pidFils) {
         case -1: // Error
