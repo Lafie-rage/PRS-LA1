@@ -18,34 +18,28 @@ TP5 - BOITES AUX LETTRES
 =================================================================================================
 
 1.2 Contrôle de la boîte aux lettres
-
 	La fonction msgctl permet les mêmes actions que celle vue lors du TP4 pour les mémoires partagées (shmctl()).
 	On peut alors s'en servir pour récupérer les structures de description de la boîte aux lettres, pour définir cette struture ou alors pour supprimer.
 	Il faut donc en premier lieu avoir créer la boîte aux lettres afin d'utiliser msgctl() sur celle-ci.
 
 Question 1
-
+	Voir bal_1.c.
 
 Question 2
-
-  2.1
-    Le sémaphore permet de faire la travail d'un mutex, mais il permet également de partager
-    une ressource critique entre processus, thread et pour plusieurs processus/threads, alors
-    qu'un mutex ne permettait de le partager qu'avec un seul thread.
-
-  2.2
-    Ne pouvoir partager sa ressource qu'a un seul thread.
-
-  2.3
-    Partager avec plusieurs threads, des processus ou alors executer plusieus opération sur
-    la ressource critique.
+	Voir bal_2.c.
 
 Question 3
+	Voir bal_3c.c et bal_3s.c.
 
-  3.1
-    Voir q3.c.
+Question 4
+	Voir bal_4c.c et bal_4s.c.
 
-  3.2
-    Ils se trouvent dans /dev/shm sous le nom sem.<nomDuSémaphoreNommé>.
-    -r-x--S--T 1 coranthin coranthin    32 mars  24 10:59 sem.mySem.
-    Seulement s'il est dans le même groupe que moi grace au S.
+Question 5
+	Voir bal_5c.c et bal_5s.c.
+
+Question 6
+	Il faut envoyer un message à chaque clients dans la liste des clietns connus par le serveur.
+
+Question 7
+	Il faut que le client source envoie également le PID de destination.
+	Ensuite, le serveur n'aura qu'a envoyer le message avec comme type le PID de destination.

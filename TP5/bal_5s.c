@@ -13,9 +13,10 @@
 #define CHECK(sts,msg) if ((sts)== -1) {perror(msg); exit(-1);}
 
 void printMsgInfo(int msgId);
-void sendReceipt(int msgId, int clientPid);
-void updatingList(int *clients, int *nbClientsKnown, pid_t clientPid);
-void printClientsList(const int *clients, int nbClientsKnown);
+void sendReceipt(int msgId, int clientPid, const char *msg);
+void updatingList(int *clients, int *nbKnownClients, pid_t clientPid);
+void removeFromList(int *clients, int *nbKnownClients, pid_t clientPid);
+void printClientsList(const int *clients, int nbKnownClients);
 
 int main(void) {
   /* TODO :
@@ -25,7 +26,8 @@ int main(void) {
   Si message différent de CLOSE_CONNECTION_MSG =>
     - affichage celui-ci
     - appel fonction affichage informations
-    - Si client pas dans la liste, on l'ajoute
+    - Si message CLOSE_CONNECTION_MSG => suppression client de la liste
+    - Sinon si client pas dans la liste, on l'ajoute
     - envoit accusé de récéption
   Suppression boite aux lettres
   */
@@ -37,14 +39,20 @@ int main(void) {
   // Cration mail box //
   CHECK(msgId = msgget(key, 0666 | IPC_CREAT | IPC_EXCL), "SERVER : --- Problem while creating mailbox ---");
   printMsgInfo(msgId);
-  while (strcmp(request.body.msg, CLOSE_CONNECTION_MSG)) {
+  do {
     CHECK(msgrcv(msgId, &request, sizeof(t_body), 1, 0), "SERVER : --- Problem while trying to read message from mailbox ---");
     printf("Message send : %s\n", request.body.msg);
-    updatingList(clients, &nbKnownClients, request.body.pid);
+    if(!strcmp(request.body.msg, CLOSE_CONNECTION_MSG)){
+      removeFromList(clients, &nbKnownClients, request.body.pid);
+      sendReceipt(msgId, request.body.pid, CLOSE_CONNECTION_MSG);
+    }
+    else {
+      updatingList(clients, &nbKnownClients, request.body.pid);
+      sendReceipt(msgId, request.body.pid, MSG_RECEIVED);
+    }
     printClientsList(clients, nbKnownClients);
     printMsgInfo(msgId);
-    sendReceipt(msgId, request.body.pid);
-  }
+  } while (nbKnownClients != 0);
   CHECK(msgctl(msgId, IPC_RMID, NULL), "SERVER : --- Problem while deleting mailbox ---");
 }
 
@@ -75,7 +83,7 @@ void printMsgInfo(int msgId) {
 
 }
 
-void sendReceipt(int msgId, int clientPid) {
+void sendReceipt(int msgId, int clientPid, const char* msg) {
   /* TODO :
     Envoit MSG_RECEIVED au client
     Message de type pid client
@@ -83,26 +91,44 @@ void sendReceipt(int msgId, int clientPid) {
   t_request receipt;
   receipt.type = clientPid;
   receipt.body.pid = getpid();
-  strcpy(receipt.body.msg, MSG_RECEIVED);
+  strcpy(receipt.body.msg, msg);
   CHECK(msgsnd(msgId, &receipt, sizeof(t_body), 0), "SERVER : --- Problem while sending receipt to client ---");
 }
 
-void updatingList(int *clients, int *nbClientsKnown, pid_t clientPid) {
+void updatingList(int *clients, int *nbKnownClients, pid_t clientPid) {
   int i;
-  for(i = 0; i < *nbClientsKnown; i++) {
+  for(i = 0; i < *nbKnownClients; i++) {
     if(clients[i] == clientPid)
       break;
   }
   printf("i = %d\n", i);
-  if( i == *nbClientsKnown) // clients inconnu
-    clients[(*nbClientsKnown)++] = clientPid;
+  if( i == *nbKnownClients) // clients inconnu
+    clients[(*nbKnownClients)++] = clientPid;
 }
 
-void printClientsList(const int *clients, int nbClientsKnown) {
+void removeFromList(int *clients, int *nbKnownClients, pid_t clientPid) {
+  int i, indexToRemove = -1;
+  int tmp;
+  for(i = 0; i < *nbKnownClients; i++) {
+    if(clients[i] == clientPid)
+      indexToRemove = i;
+      break;
+  }
+  if(indexToRemove != -1) {
+    (*nbKnownClients)--;
+    if(indexToRemove != 0) {
+      for(i = indexToRemove; i < *nbKnownClients; i++) {
+        clients[i] = clients[i+1];
+      }
+    }
+  }
+}
+
+void printClientsList(const int *clients, int nbKnownClients) {
   int i = 0;
   puts("Known clients : {");
-  for(i = 0; i < nbClientsKnown; i++) {
-    if(i == nbClientsKnown)
+  for(i = 0; i < nbKnownClients; i++) {
+    if(i == nbKnownClients)
       printf("Clients %d pid : %d\n", i+1, clients[i]);
     else
       printf("Clients %d pid : %d,\n", i+1, clients[i]);
