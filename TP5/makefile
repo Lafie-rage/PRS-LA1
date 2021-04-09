@@ -1,7 +1,7 @@
 CC = gcc
 BUILD_FOLDER := build
 msg_exec = bal_1 bal_2 bal_3s bal_3c bal_4s bal_4c bal_5s bal_5c
-pipe_exec = tube_1
+pipe_exec = tube_1 tube_2
 exec = $(msg_exec) $(pipe_exec)
 lib = -lpthread
 
@@ -37,7 +37,10 @@ $(BUILD_FOLDER)/bal_5s : bal_5s.c
 	$(CC) $^ -o $@ $(lib)
 
 $(BUILD_FOLDER)/tube_1 : tube_1.c
-	$(CC) $^ -o $@ $(lib)
+	$(CC) $^ -o $@
+
+$(BUILD_FOLDER)/tube_2 : tube_2.c
+	$(CC) $^ -o $@
 
 clean :
 	rm $(BUILD_FOLDER)/*
