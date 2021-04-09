@@ -14,6 +14,7 @@
 void printMsgInfo(int msgId);
 void sendReceipt(int msgId, int clientPid, const char *msg);
 
+
 int main(void) {
   /* TODO :
   Créer une boite aux lettres
@@ -40,6 +41,7 @@ int main(void) {
       sendReceipt(msgId, request.body.pid, MSG_RECEIVED);
     else
       sendReceipt(msgId, request.body.pid, CLOSE_CONNECTION_MSG);
+
   }
   CHECK(msgctl(msgId, IPC_RMID, NULL), "SERVER : --- Problem while deleting mailbox ---");
 }

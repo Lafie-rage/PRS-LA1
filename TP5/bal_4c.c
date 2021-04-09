@@ -38,8 +38,10 @@ int main(void) {
   CHECK(msgId = msgget(key, 0), "--- Problem while retrieving mailbox ---");
   pthread_create(&receiptWaiter, NULL, waitReceipt, &msgId);
   pthread_create(&messageSender, NULL, sendRequest, &msgId);
+
   pthread_join(messageSender, NULL);
   pthread_join(receiptWaiter, NULL);
+
 }
 
 void *waitReceipt(void *arg) {

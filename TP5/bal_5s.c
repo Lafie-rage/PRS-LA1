@@ -13,6 +13,7 @@
 #define CHECK(sts,msg) if ((sts)== -1) {perror(msg); exit(-1);}
 
 void printMsgInfo(int msgId);
+
 void sendReceipt(int msgId, int clientPid, const char *msg);
 void updatingList(int *clients, int *nbKnownClients, pid_t clientPid);
 void removeFromList(int *clients, int *nbKnownClients, pid_t clientPid);
@@ -39,6 +40,7 @@ int main(void) {
   // Cration mail box //
   CHECK(msgId = msgget(key, 0666 | IPC_CREAT | IPC_EXCL), "SERVER : --- Problem while creating mailbox ---");
   printMsgInfo(msgId);
+
   do {
     CHECK(msgrcv(msgId, &request, sizeof(t_body), 1, 0), "SERVER : --- Problem while trying to read message from mailbox ---");
     printf("Message send : %s\n", request.body.msg);
@@ -82,6 +84,7 @@ void printMsgInfo(int msgId) {
   puts("\t}\n}");
 
 }
+
 
 void sendReceipt(int msgId, int clientPid, const char* msg) {
   /* TODO :

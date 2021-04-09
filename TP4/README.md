@@ -1,10 +1,10 @@
-# TP 2 : THREAD ET MUTEX | PRS | LA1
+# TP 4 : MEMOIRE PARTAGEE | PRS | LA1
 
-Compte rendu et sources du TP2 de PRS des LA1. Réalisé en réalisé 2020.
+Compte rendu et sources du TP4 de PRS des LA1. Réalisé en réalisé 2020.
 
 ## Description
 
-Ce dossier contient les fichiers sources ainsi que le compte rendu du TP2 de PRS.  
+Ce dossier contient les fichiers sources ainsi que le compte rendu du TP3 de PRS.  
 Il contient également un makefile afin de compiler l'ensemble des sources.  
 Ce dossier est également disponible sur mon github (lien dans la rubrique contributeur).
 
@@ -21,4 +21,4 @@ Un cible clean permet de vider le dossier de tous les exécutables.
 ## Contributeur
 
 Ce TP a été réalisé seul par Corentin DESTREZ.  
-[Github](https://github.com/Lafie-rage/PRS-LA1/tree/master/TP2) : [Lafie-rage](https://github.com/Lafie-rage)
+[Github](https://github.com/Lafie-rage/PRS-LA1/tree/master/TP4) : [Lafie-rage](https://github.com/Lafie-rage)
