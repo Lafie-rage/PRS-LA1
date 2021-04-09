@@ -8,7 +8,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include <wait.h>
+#include <sys/wait.h>
+#include <sys/types.h>
 #include "tp5_pipe.h"
 
 #define CHECK(sts,msg) if ((sts)== -1) {perror(msg); exit(-1);}
@@ -24,43 +25,55 @@ int main(void) {
       Tant que message pas AU REVOIR
       - Demande messages à utilisateur
       - Ecrit dans pipe
-
+      - Attend réponse du père
     Père :
       Tant que message reçu pas AU REVOIR
       - Lit dans pipe
+      - Attends 2 sec
+      - Répond avec message type
   */
   int childPid, status;
-  int pipeFd[2];
+  int pipeFdFromM2C[2];
+  int pipeFdFromC2M[2];
   char buffer[MAX_MSG_SIZE];
-  CHECK(pipe(pipeFd), "--- Problem while creating pipe ---");
+  CHECK(pipe(pipeFdFromM2C), "--- Problem while creating pipe ---");
+  CHECK(pipe(pipeFdFromC2M), "--- Problem while creating pipe ---");
   switch (childPid = fork()) {
     case -1:
       perror("--- Problem while creating child ---");
       exit(-1);
     case 0: // Child
-      close(pipeFd[0]);
+      close(pipeFdFromC2M[0]);
+      close(pipeFdFromM2C[1]);
       puts("-> CHILD : Reading fd close");
       do {
         getMsgFromUser(buffer);
-        write(pipeFd[1], buffer, sizeof(buffer));
+        write(pipeFdFromC2M[1], buffer, sizeof(buffer));
         puts("-> CHILD : Message sent");
+        puts("-> CHILD : Waiting for main processus to respond");
+        do {
+          read(pipeFdFromM2C[0], buffer, sizeof(buffer));
+        } while(buffer[0] == EOF);
       } while(strcmp(buffer, CLOSE_PIPE_MSG));
-      close(pipeFd[1]);
+      close(pipeFdFromC2M[1]);
       puts("-> CHILD : Writing fd close");
       puts("-> CHILD : End...");
       exit(0);
     default: // Main processus
-      close(pipeFd[1]);
+      close(pipeFdFromC2M[1]);
+      close(pipeFdFromM2C[0]);
       while(1) {
         puts("MAIN : Writing fd close");
         do {
-          read(pipeFd[0], buffer, sizeof(buffer));
+          read(pipeFdFromC2M[0], buffer, sizeof(buffer));
         } while(buffer[0] == EOF);
         printf("MAIN : Message from child : \"%s\"\n", buffer);
+        sleep(2);
+        write(pipeFdFromM2C[1], RESPONS_MSG, sizeof(buffer));
         if(!strcmp(buffer, CLOSE_PIPE_MSG))
           break;
       }
-      close(pipeFd[0]);
+      close(pipeFdFromC2M[0]);
       puts("MAIN : Writing fd close");
       puts("MAIN : End...");
   }
