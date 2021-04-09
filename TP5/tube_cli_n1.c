@@ -1,6 +1,6 @@
 /* =============================================================================== */
 /*                                                                                 */
-/* tube_srv_n1.c                                                                   */
+/* tube_cli_n1.c                                                                   */
 /* Auteur : Corentin DESTREZ                                                       */
 /* =============================================================================== */
 
@@ -20,24 +20,20 @@
 
 int main(void) {
   /* TODO :
-    - Crée le tube nommé
-    - Ecrit un message dedans
-    - Attend quelques secondes
+    - Ouvre le tube nommé
+    - Lit le message dedans
     - S'éteind
   */
 
   int fifoFd;
-
-  // Create fifo //
-  CHECK(mkfifo(FIFO_PATHNAME, 0666), "--- SERVER : Problem while creating FIFO ---");
+  char buffer[MAX_MSG_SIZE];
 
   // Open & write in fifo //
-  CHECK(fifoFd = open(FIFO_PATHNAME, O_RDWR), "--- SERVER : Problem while opening FIFO ---");
-  puts("SERVER : FIFO opened");
-  CHECK(write(fifoFd, MSG_TO_SEND, sizeof(MSG_TO_SEND)), "--- SERVER : Problem while writing in FIFO ---");
-  puts("SERVER : Message send");
-  sleep(5);
-  CHECK(close(fifoFd), "--- SERVER : Problem while closing FIFO ---");
-  puts("SERVER : FIFO closed");
+  CHECK(fifoFd = open(FIFO_PATHNAME, O_WRONLY), "--- CLIENT : Problem while opening FIFO ---");
+  puts("CLIENT : FIFO opened");
+  CHECK(read(fifoFd, buffer, sizeof(buffer)), "--- CLIENT : Problem while reading in FIFO ---");
+  printf("Message from server : \"%s\"\n", buffer);
+  CHECK(close(fifoFd), "--- CLIENT : Problem while closing FIFO ---");
+  puts("CLIENT : FIFO closed");
   exit(0);
 }

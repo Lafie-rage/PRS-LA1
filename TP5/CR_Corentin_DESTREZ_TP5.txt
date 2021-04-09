@@ -86,3 +86,17 @@ II - Tubes et tubes nommés
 
 		Question 1
 			Voir code de tube_srv_n1.c
+
+		Question 2
+			Voir code de tube_cli_n1.c
+
+		Question 3
+			Voir code de tube_cli_n2.c et tube_srv_n2.c
+
+		Question 4
+			Le système éteint les clients lors de leurs tentatives d'écriture.
+
+		Question 5
+			Il faudrait identifier les clients côté serveur et avoir la possibilité d'envoyer des messages du serveur vers le client.
+			Ceci permettra de transmettre des messages entre les clients en passant par le serveur.
+			On mettra alors en place un protocol de communication.

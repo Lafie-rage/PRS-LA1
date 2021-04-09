@@ -10,6 +10,9 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <sys/types.h>
+
+// Custom librairies
+#define ANONYMOUS
 #include "tp5_pipe.h"
 
 #define CHECK(sts,msg) if ((sts)== -1) {perror(msg); exit(-1);}
