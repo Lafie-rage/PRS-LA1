@@ -80,6 +80,9 @@ II - Tubes et tubes nommés
 			Voir le code de tube_1.c
 
 		Question 2
-			Voir le voce de tube_2.c
-			
+			Voir le code de tube_2.c
+
 	2 - Tubes nommés
+
+		Question 1
+			Voir code de tube_srv_n1.c

@@ -1,6 +1,6 @@
 /* =============================================================================== */
 /*                                                                                 */
-/* tube_2.c                                                                       */
+/* tube_3.c                                                                       */
 /* Auteur : Corentin DESTREZ                                                       */
 /* =============================================================================== */
 
@@ -33,8 +33,8 @@ int main(void) {
       - Répond avec message type
   */
   int childPid, status;
-  int pipeFdFromM2C[2];
-  int pipeFdFromC2M[2];
+  int pipeFdFromM2C[2]; // From main proc to child
+  int pipeFdFromC2M[2]; // From child to main proc
   char buffer[MAX_MSG_SIZE];
   CHECK(pipe(pipeFdFromM2C), "--- Problem while creating pipe ---");
   CHECK(pipe(pipeFdFromC2M), "--- Problem while creating pipe ---");
@@ -45,7 +45,7 @@ int main(void) {
     case 0: // Child
       close(pipeFdFromC2M[0]);
       close(pipeFdFromM2C[1]);
-      puts("-> CHILD : Reading fd close");
+      puts("-> CHILD : Unused fd close");
       do {
         getMsgFromUser(buffer);
         write(pipeFdFromC2M[1], buffer, sizeof(buffer));
@@ -56,14 +56,15 @@ int main(void) {
         } while(buffer[0] == EOF);
       } while(strcmp(buffer, CLOSE_PIPE_MSG));
       close(pipeFdFromC2M[1]);
-      puts("-> CHILD : Writing fd close");
+      close(pipeFdFromC2M[1]);
+      puts("-> CHILD : Used fd close");
       puts("-> CHILD : End...");
       exit(0);
     default: // Main processus
       close(pipeFdFromC2M[1]);
       close(pipeFdFromM2C[0]);
       while(1) {
-        puts("MAIN : Writing fd close");
+        puts("MAIN : Unused fd close");
         do {
           read(pipeFdFromC2M[0], buffer, sizeof(buffer));
         } while(buffer[0] == EOF);
@@ -74,7 +75,8 @@ int main(void) {
           break;
       }
       close(pipeFdFromC2M[0]);
-      puts("MAIN : Writing fd close");
+      close(pipeFdFromM2C[1]);
+      puts("MAIN : Used fd close");
       puts("MAIN : End...");
   }
 }

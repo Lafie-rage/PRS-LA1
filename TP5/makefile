@@ -1,7 +1,9 @@
 CC = gcc
 BUILD_FOLDER := build
 msg_exec = bal_1 bal_2 bal_3s bal_3c bal_4s bal_4c bal_5s bal_5c
-pipe_exec = tube_1 tube_2 tube_3
+anonymous_pipe_exec = tube_1 tube_2 tube_3
+named_pipe_exec = tube_srv_n1
+pipe_exec = $(anonymous_pipe_exec) $(named_pipe_exec)
 exec = $(msg_exec) $(pipe_exec)
 lib = -lpthread
 
@@ -10,6 +12,10 @@ all : $(addprefix $(BUILD_FOLDER)/,$(exec))
 msg : $(addprefix $(BUILD_FOLDER)/,$(msg_exec))
 
 pipe : $(addprefix $(BUILD_FOLDER)/,$(pipe_exec))
+
+anonymous_pipe : $(addprefix $(BUILD_FOLDER)/,$(anonymous_pipe_exec))
+
+named_pipe : $(addprefix $(BUILD_FOLDER)/,$(named_pipe_exec))
 
 $(BUILD_FOLDER)/bal_1 : bal_1.c
 	$(CC) $^ -o $@
@@ -44,6 +50,10 @@ $(BUILD_FOLDER)/tube_2 : tube_2.c
 
 $(BUILD_FOLDER)/tube_3 : tube_3.c
 	$(CC) $^ -o $@
+
+$(BUILD_FOLDER)/tube_srv_n1 : tube_srv_n1.c
+	$(CC) $^ -o $@
+
 
 clean :
 	rm $(BUILD_FOLDER)/*
