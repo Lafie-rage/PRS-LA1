@@ -1,0 +1,51 @@
+Corentin DESTREZ - LA1 - TDA
+
+TP5 - BOITES AUX LETTRES
+
+=================================================================================================
+
+0 - Introduction
+	Ces infos se trouvent également dans le README.
+
+	Afin de compiler les sources, un makefile est mis à disposition.
+	Avant de compiler, créez un dossier build dans le répertoir TP5.
+	La cible all compilera toutes les sources. Il existe une cible pour chaque source.
+	Les exécutables porteront le nom des sources sans l'extension et se trouvent dans le dossier build.
+
+	Un cible clean permet de vider le dossier de tous les exécutables.
+
+
+=================================================================================================
+
+1.2 Contrôle de la boîte aux lettres
+
+	La fonction msgctl permet les mêmes actions que celle vue lors du TP4 pour les mémoires partagées (shmctl()).
+	On peut alors s'en servir pour récupérer les structures de description de la boîte aux lettres, pour définir cette struture ou alors pour supprimer.
+	Il faut donc en premier lieu avoir créer la boîte aux lettres afin d'utiliser msgctl() sur celle-ci.
+
+Question 1
+
+
+Question 2
+
+  2.1
+    Le sémaphore permet de faire la travail d'un mutex, mais il permet également de partager
+    une ressource critique entre processus, thread et pour plusieurs processus/threads, alors
+    qu'un mutex ne permettait de le partager qu'avec un seul thread.
+
+  2.2
+    Ne pouvoir partager sa ressource qu'a un seul thread.
+
+  2.3
+    Partager avec plusieurs threads, des processus ou alors executer plusieus opération sur
+    la ressource critique.
+
+Question 3
+
+  3.1
+    Voir q3.c.
+
+  3.2
+    Ils se trouvent dans /dev/shm sous le nom sem.<nomDuSémaphoreNommé>.
+    -r-x--S--T 1 coranthin coranthin    32 mars  24 10:59 sem.mySem.
+    Seulement s'il est dans le même groupe que moi grace au S.
