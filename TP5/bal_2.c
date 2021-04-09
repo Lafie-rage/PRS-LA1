@@ -6,19 +6,10 @@
 #include <unistd.h>
 #include <string.h>
 #include <time.h>
+#include "tp5_msg.h"
 
 #define MSG_KEY 1
 #define CHECK(sts,msg) if ((sts)== -1) {perror(msg); exit(-1);}
-
-// Request type...
-typedef struct body {
-  pid_t pid;
-  char msg[256];
-} t_body;
-typedef struct request {
-  long type;
-  t_body body;
-} t_request;
 
 void printMsgInfo(int msgId);
 

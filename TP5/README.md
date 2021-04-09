@@ -1,4 +1,4 @@
-# TP 5 : BOITES AUX LETTRES | PRS | LA1
+# TP 5 : BOITES AUX LETTRES ET TUBES | PRS | LA1
 
 Compte rendu et sources du TP5 de PRS des LA1. Réalisé en réalisé 2020.
 

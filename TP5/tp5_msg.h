@@ -1,5 +1,5 @@
-#ifndef TP5_H
-#define TP5_H
+#ifndef TP5_MSG_H
+#define TP5_MSG_H
 
 // Request type...
 #define MAX_BODY_MSG_SIZE 256

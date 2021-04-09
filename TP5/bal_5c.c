@@ -7,7 +7,7 @@
 #include <string.h>
 #include <time.h>
 #include <pthread.h>
-#include "tp5.h"
+#include "tp5_msg.h"
 
 #define MSG_KEY 1
 #define CHECK(sts,msg) if ((sts)== -1) {perror(msg); exit(-1);}
