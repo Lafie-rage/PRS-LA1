@@ -74,5 +74,12 @@ I - Boites aux lettres
 
 II - Tubes et tubes nommés
 
-	Question 1
-		Voir le code de tube_1.c
+	1 - Tubes anonymes
+
+		Question 1
+			Voir le code de tube_1.c
+
+		Question 2
+			Voir le voce de tube_2.c
+			
+	2 - Tubes nommés
