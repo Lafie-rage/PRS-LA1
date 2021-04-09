@@ -18,12 +18,31 @@ TP5 - BOITES AUX LETTRES
 =================================================================================================
 
 1.2 Contrôle de la boîte aux lettres
-
 	La fonction msgctl permet les mêmes actions que celle vue lors du TP4 pour les mémoires partagées (shmctl()).
 	On peut alors s'en servir pour récupérer les structures de description de la boîte aux lettres, pour définir cette struture ou alors pour supprimer.
 	Il faut donc en premier lieu avoir créer la boîte aux lettres afin d'utiliser msgctl() sur celle-ci.
 
 Question 1
+	Voir bal_1.c.
+
+Question 2
+	Voir bal_2.c.
+
+Question 3
+	Voir bal_3c.c et bal_3s.c.
+
+Question 4
+	Voir bal_4c.c et bal_4s.c.
+
+Question 5
+	Voir bal_5c.c et bal_5s.c.
+
+Question 6
+	Il faut envoyer un message à chaque clients dans la liste des clietns connus par le serveur.
+
+Question 7
+	Il faut que le client source envoie également le PID de destination.
+	Ensuite, le serveur n'aura qu'a envoyer le message avec comme type le PID de destination.
 
 
 Question 2

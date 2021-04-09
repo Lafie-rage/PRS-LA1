@@ -12,7 +12,8 @@
 #define CHECK(sts,msg) if ((sts)== -1) {perror(msg); exit(-1);}
 
 void printMsgInfo(int msgId);
-void sendReceipt(int msgId, int clientPid);
+void sendReceipt(int msgId, int clientPid, const char *msg);
+
 
 int main(void) {
   /* TODO :
@@ -36,7 +37,11 @@ int main(void) {
     CHECK(msgrcv(msgId, &request, sizeof(t_body), 1, 0), "SERVER : --- Problem while trying to read message from mailbox ---");
     printf("Message send : %s\n", request.body.msg);
     printMsgInfo(msgId);
-    sendReceipt(msgId, request.body.pid);
+    if(!strcmp(request.body.msg, CLOSE_CONNECTION_MSG))
+      sendReceipt(msgId, request.body.pid, MSG_RECEIVED);
+    else
+      sendReceipt(msgId, request.body.pid, CLOSE_CONNECTION_MSG);
+
   }
   CHECK(msgctl(msgId, IPC_RMID, NULL), "SERVER : --- Problem while deleting mailbox ---");
 }
@@ -68,7 +73,7 @@ void printMsgInfo(int msgId) {
 
 }
 
-void sendReceipt(int msgId, int clientPid) {
+void sendReceipt(int msgId, int clientPid, const char *msg) {
   /* TODO :
     Envoit MSG_RECEIVED au client
     Message de type pid client
