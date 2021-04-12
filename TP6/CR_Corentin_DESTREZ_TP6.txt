@@ -1,0 +1,29 @@
+Corentin DESTREZ - LA1 - TDA
+
+TP6 - SYNTHESE MEMOIRE PARATGEE ET TUBES NOMMES
+
+=================================================================================================
+
+0 - Introduction
+	Ces infos se trouvent également dans le README.
+
+	Afin de compiler les sources, un makefile est mis à disposition.
+	Avant de compiler, créez un dossier build dans le répertoir TP6.
+	La cible all compilera toutes les sources. Il existe une cible pour chaque source.
+	Les exécutables porteront le nom des sources sans l'extension et se trouvent dans le dossier build.
+
+	Un cible clean permet de vider le dossier de tous les exécutables.
+
+	Un schéma de la solution proposé est disponible sous le nom schema_solution.jpg.
+
+=================================================================================================
+
+Je n'ai pas pu avancer énormément pendant ce TP.
+Je pense que je connais les différentes technologies et sait quand utiliser le bon type
+mais j'ai encore un problème pour être efficace dans leur mise en place.
+Mes connaissances ne sont pas encore assez solides pour pouvoir développer
+rapidement une solution robuste.
+
+Je n'ai pu qu'ouvrir les pipes et la mémoire partagée.
+J'ai encore un problème lors de la fermeture de la mémoire partagée.
+Je n'ai pas eu le temps de mettre en place les sémaphores et signaux que je souhaitais.
